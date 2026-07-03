@@ -1,1 +1,52 @@
+# Question 3: File System and Link Analysis
 
+# 1. Create directories for the experiment
+mkdir -p ~/link_experiment
+cd ~/link_experiment
+
+# Explanation: Creates a dedicated directory for the link analysis experiment.
+
+# 2. Create original file with content
+echo "This is the original file content for link analysis" > original.txt
+cat original.txt
+
+# Explanation: Creates original.txt with sample content, cat displays its contents.
+
+# 3. Create a hard link
+ln original.txt hardlink.txt
+ls -li original.txt hardlink.txt
+
+# Explanation: ln creates a hard link, ls -li shows inode numbers and permissions for both files.
+
+# 4. Create a symbolic link
+ln -s original.txt symlink.txt
+ls -li original.txt hardlink.txt symlink.txt
+
+# Explanation: ln -s creates a symbolic link pointing to original.txt, ls -li shows all three links.
+
+# 5. Display detailed file information
+stat original.txt hardlink.txt symlink.txt
+
+# Explanation: stat displays detailed metadata including inode, file size, permissions, and timestamps.
+
+# 6. Examine inode numbers
+find . -type f -printf "%i %n %p\n"
+
+# Explanation: Displays inode numbers and link counts for all files in the directory.
+
+# 7. Delete original file and observe behavior
+rm original.txt
+ls -li hardlink.txt symlink.txt
+cat hardlink.txt
+cat symlink.txt
+
+# Explanation: Removing original demonstrates that hard link still works (same inode) but symbolic link breaks.
+
+# 8. Create a new file and test symbolic link
+echo "New content" > original.txt
+cat symlink.txt
+
+# Explanation: Creating new original.txt shows symbolic link now points to the new content.
+
+# 9. Display link count and inode comparison
+ls -li hardlink.txt symlink.txt original.txt

@@ -1,0 +1,93 @@
+amman@amman:~$ # Question 3: File System and Link Analysis
+amman@amman:~$ 
+amman@amman:~$ # 1. Create directories for the experiment
+amman@amman:~$ mkdir -p ~/link_experiment
+amman@amman:~$ cd ~/link_experiment
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # Explanation: Creates a dedicated directory for the link analysis experiment.
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # 2. Create original file with content
+amman@amman:~/link_experiment$ echo "This is the original file content for link analysis" > original.txt
+amman@amman:~/link_experiment$ cat original.txt
+This is the original file content for link analysis
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # Explanation: Creates original.txt with sample content, cat displays its contents.
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # 3. Create a hard link
+amman@amman:~/link_experiment$ ln original.txt hardlink.txt
+amman@amman:~/link_experiment$ ls -li original.txt hardlink.txt
+921402 -rw-rw-r-- 2 amman amman 52 Jul  3 23:40 hardlink.txt
+921402 -rw-rw-r-- 2 amman amman 52 Jul  3 23:40 original.txt
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # Explanation: ln creates a hard link, ls -li shows inode numbers and permissions for both files.
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # 4. Create a symbolic link
+amman@amman:~/link_experiment$ ln -s original.txt symlink.txt
+amman@amman:~/link_experiment$ ls -li original.txt hardlink.txt symlink.txt
+921402 -rw-rw-r-- 2 amman amman 52 Jul  3 23:40 hardlink.txt
+921402 -rw-rw-r-- 2 amman amman 52 Jul  3 23:40 original.txt
+921403 lrwxrwxrwx 1 amman amman 12 Jul  3 23:40 symlink.txt -> original.txt
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # Explanation: ln -s creates a symbolic link pointing to original.txt, ls -li shows all three links.
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # 5. Display detailed file information
+amman@amman:~/link_experiment$ stat original.txt hardlink.txt symlink.txt
+  File: original.txt
+  Size: 52        	Blocks: 8          IO Block: 4096   regular file
+Device: 801h/2049d	Inode: 921402      Links: 2
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/   amman)   Gid: ( 1000/   amman)
+Access: 2026-07-03 23:40:21.485011686 +0530
+Modify: 2026-07-03 23:40:21.485011686 +0530
+Change: 2026-07-03 23:40:21.497011686 +0530
+ Birth: -
+  File: hardlink.txt
+  Size: 52        	Blocks: 8          IO Block: 4096   regular file
+Device: 801h/2049d	Inode: 921402      Links: 2
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/   amman)   Gid: ( 1000/   amman)
+Access: 2026-07-03 23:40:21.485011686 +0530
+Modify: 2026-07-03 23:40:21.485011686 +0530
+Change: 2026-07-03 23:40:21.497011686 +0530
+ Birth: -
+  File: symlink.txt -> original.txt
+  Size: 12        	Blocks: 0          IO Block: 4096   symbolic link
+Device: 801h/2049d	Inode: 921403      Links: 1
+Access: (0777/lrwxrwxrwx)  Uid: ( 1000/   amman)   Gid: ( 1000/   amman)
+Access: 2026-07-03 23:40:21.525011686 +0530
+Modify: 2026-07-03 23:40:21.513011686 +0530
+Change: 2026-07-03 23:40:21.513011686 +0530
+ Birth: -
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # Explanation: stat displays detailed metadata including inode, file size, permissions, and timestamps.
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # 6. Examine inode numbers
+amman@amman:~/link_experiment$ find . -type f -printf "%i %n %p\n"
+921402 2 ./original.txt
+921402 2 ./hardlink.txt
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # Explanation: Displays inode numbers and link counts for all files in the directory.
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # 7. Delete original file and observe behavior
+amman@amman:~/link_experiment$ rm original.txt
+amman@amman:~/link_experiment$ ls -li hardlink.txt symlink.txt
+921402 -rw-rw-r-- 1 amman amman 52 Jul  3 23:40 hardlink.txt
+921403 lrwxrwxrwx 1 amman amman 12 Jul  3 23:40 symlink.txt -> original.txt
+amman@amman:~/link_experiment$ cat hardlink.txt
+This is the original file content for link analysis
+amman@amman:~/link_experiment$ cat symlink.txt
+cat: symlink.txt: No such file or directory
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # Explanation: Removing original demonstrates that hard link still works (same inode) but symbolic link breaks.
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # 8. Create a new file and test symbolic link
+amman@amman:~/link_experiment$ echo "New content" > original.txt
+amman@amman:~/link_experiment$ cat symlink.txt
+New content
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # Explanation: Creating new original.txt shows symbolic link now points to the new content.
+amman@amman:~/link_experiment$ 
+amman@amman:~/link_experiment$ # 9. Display link count and inode comparison
+amman@amman:~/link_experiment$ ls -li hardlink.txt symlink.txt original.txt
+921402 -rw-rw-r-- 1 amman amman 52 Jul  3 23:40 hardlink.txt
+921404 -rw-rw-r-- 1 amman amman 12 Jul  3 23:40 original.txt
+921403 lrwxrwxrwx 1 amman amman 12 Jul  3 23:40 symlink.txt -> original.txt
+amman@amman:~/link_experiment$ ^C

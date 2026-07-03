@@ -1,0 +1,36 @@
+# Question 1: Linux Environment Verification
+
+# 1. Display username and groups
+echo "=== USERNAME AND GROUPS ==="
+whoami
+id
+groups
+
+# Explanation: The whoami command displays the current username, id shows user ID and group memberships, and groups lists all groups the user belongs to.
+
+# 2. Display current shell
+echo "=== CURRENT SHELL ==="
+echo $SHELL
+ps -p $$
+
+# Explanation: echo $SHELL prints the default shell path, while ps -p $$ shows the current process (shell) being used.
+
+# 3. Display current working directory
+echo "=== CURRENT WORKING DIRECTORY ==="
+pwd
+
+# Explanation: pwd (print working directory) displays the absolute path of the current directory.
+
+# 4. List files and directories
+echo "=== FILES AND DIRECTORIES ==="
+ls -la
+
+# Explanation: ls -la lists all files (including hidden) with detailed permissions, owner, size, and modification time.
+
+# 5. Network connectivity verification
+echo "=== NETWORK CONNECTIVITY ==="
+ping -c 4 8.8.8.8
+ip addr show
+# or ifconfig
+
+# Explanation: ping tests network connectivity to Google DNS server, ip addr show displays network interface configuration.

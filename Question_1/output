@@ -1,0 +1,104 @@
+amman@amman:~$ # Question 1: Linux Environment Verification
+amman@amman:~$ 
+amman@amman:~$ # 1. Display username and groups
+amman@amman:~$ echo "=== USERNAME AND GROUPS ==="
+=== USERNAME AND GROUPS ===
+amman@amman:~$ whoami
+amman
+amman@amman:~$ id
+uid=1000(amman) gid=1000(amman) groups=1000(amman),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lpadmin),126(sambashare),999(vboxsf)
+amman@amman:~$ groups
+amman adm cdrom sudo dip plugdev lpadmin sambashare vboxsf
+amman@amman:~$ 
+amman@amman:~$ # Explanation: The whoami command displays the current username, id shows user ID and group memberships, and groups lists all groups the user belongs to.
+amman@amman:~$ 
+amman@amman:~$ # 2. Display current shell
+amman@amman:~$ echo "=== CURRENT SHELL ==="
+=== CURRENT SHELL ===
+amman@amman:~$ echo $SHELL
+/bin/bash
+amman@amman:~$ ps -p $$
+  PID TTY          TIME CMD
+12436 pts/2    00:00:00 bash
+amman@amman:~$ 
+amman@amman:~$ # Explanation: echo $SHELL prints the default shell path, while ps -p $$ shows the current process (shell) being used.
+amman@amman:~$ 
+amman@amman:~$ # 3. Display current working directory
+amman@amman:~$ echo "=== CURRENT WORKING DIRECTORY ==="
+=== CURRENT WORKING DIRECTORY ===
+amman@amman:~$ pwd
+/home/amman
+amman@amman:~$ 
+amman@amman:~$ # Explanation: pwd (print working directory) displays the absolute path of the current directory.
+amman@amman:~$ 
+amman@amman:~$ # 4. List files and directories
+amman@amman:~$ echo "=== FILES AND DIRECTORIES ==="
+=== FILES AND DIRECTORIES ===
+amman@amman:~$ ls -la
+total 160
+drwxr-xr-x 19 amman amman  4096 Jul  3 22:43 .
+drwxr-xr-x  3 root  root   4096 Sep 30  2021 ..
+-rw-------  1 amman amman 16606 Jul  3 23:17 .bash_history
+-rw-r--r--  1 amman amman   220 Sep 30  2021 .bash_logout
+-rw-r--r--  1 amman amman  3807 Oct  3  2021 .bashrc
+-rw-rw-r--  1 amman amman     0 Oct  1  2021 .bash_tec2015
+drwx------ 24 amman amman  4096 Dec  4  2021 .cache
+drwx------ 21 amman amman  4096 Dec  4  2021 .config
+drwxr-xr-x  9 amman amman  4096 Dec  8  2021 Desktop
+drwxr-xr-x  2 amman amman  4096 Sep 30  2021 Documents
+drwxr-xr-x  6 amman amman  4096 Dec  6  2021 Downloads
+drwxrwxr-x  3 amman amman  4096 Oct  3  2021 engineerdo
+-rw-r--r--  1 amman amman  8980 Sep 30  2021 examples.desktop
+drwx------  3 amman amman  4096 Sep 30  2021 .gnupg
+-rw-------  1 amman amman 10664 Jul  3 22:42 .ICEauthority
+drwx------  5 amman amman  4096 Oct  2  2021 .local
+-rw-rw-r--  1 amman amman   896 Dec  1  2021 log.icoFoam
+drwx------  5 amman amman  4096 Sep 30  2021 .mozilla
+drwxr-xr-x  2 amman amman  4096 Sep 30  2021 Music
+drwxrwxr-x  3 amman amman  4096 Oct  3  2021 OpenFOAM
+drwxr-xr-x  2 amman amman  4096 Sep 30  2021 Pictures
+-rw-r--r--  1 amman amman   807 Sep 30  2021 .profile
+drwxr-xr-x  2 amman amman  4096 Sep 30  2021 Public
+-rw-------  1 amman amman    48 Oct  2  2021 .python_history
+drwx------  2 amman amman  4096 Sep 30  2021 .ssh
+-rw-r--r--  1 amman amman     0 Sep 30  2021 .sudo_as_admin_successful
+drwxr-xr-x  2 amman amman  4096 Sep 30  2021 Templates
+drwx------  6 amman amman  4096 Dec  1  2021 .thunderbird
+-rw-r-----  1 amman amman     5 Jul  3 22:42 .vboxclient-clipboard.pid
+-rw-r-----  1 amman amman     5 Jul  3 22:42 .vboxclient-display-svga-x11.pid
+-rw-r-----  1 amman amman     5 Jul  3 22:42 .vboxclient-draganddrop.pid
+-rw-r-----  1 amman amman     5 Jul  3 22:42 .vboxclient-seamless.pid
+drwxr-xr-x  2 amman amman  4096 Sep 30  2021 Videos
+amman@amman:~$ 
+amman@amman:~$ # Explanation: ls -la lists all files (including hidden) with detailed permissions, owner, size, and modification time.
+amman@amman:~$ 
+amman@amman:~$ # 5. Network connectivity verification
+amman@amman:~$ echo "=== NETWORK CONNECTIVITY ==="
+=== NETWORK CONNECTIVITY ===
+amman@amman:~$ ping -c 4 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=255 time=43.0 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=255 time=30.6 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=255 time=45.0 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=255 time=33.7 ms
+
+--- 8.8.8.8 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3019ms
+rtt min/avg/max/mdev = 30.608/38.086/45.018/6.073 ms
+amman@amman:~$ ip addr show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:34:c9:66 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute enp0s3
+       valid_lft 83582sec preferred_lft 83582sec
+    inet6 fd00::e47d:1001:cbed:5283/64 scope global temporary dynamic 
+       valid_lft 86074sec preferred_lft 14074sec
+    inet6 fd00::f1c6:eb0f:ad06:d55c/64 scope global dynamic mngtmpaddr noprefixroute 
+       valid_lft 86074sec preferred_lft 14074sec
+    inet6 fe80::63f4:b0b5:1ee8:1068/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever

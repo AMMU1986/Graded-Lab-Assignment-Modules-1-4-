@@ -1,0 +1,48 @@
+# Question 2: Secure Project Workspace Setup
+
+# 1. Create directory structure
+mkdir -p ~/project_workspace/{docs,src,backups,temp}
+mkdir ~/project_workspace/docs/archived
+mkdir ~/project_workspace/src/modules
+
+# Explanation: Creates a nested directory structure using mkdir -p to create parent directories automatically.
+
+# 2. Display directory structure
+ls -R ~/project_workspace
+tree ~/project_workspace
+
+# Explanation: ls -R recursively shows all subdirectories, tree provides a visual directory hierarchy.
+
+# 3. Create a sample file and display initial permissions
+touch ~/project_workspace/docs/project_info.txt
+ls -l ~/project_workspace/docs/project_info.txt
+
+# Explanation: touch creates an empty file, ls -l shows the default file permissions.
+
+# 4. Check current umask value
+umask
+
+# Explanation: umask shows the default permission mask (0022 typically means new files get 644, directories 755 permissions).
+
+# 5. Modify file permissions
+chmod 644 ~/project_workspace/docs/project_info.txt
+chmod 700 ~/project_workspace/docs
+chmod 750 ~/project_workspace/src
+
+# Explanation: chmod 644 gives owner read/write, group read-only, others read-only. 700 gives owner full access only.
+
+# 6. Change ownership (if you have sudo privileges)
+sudo chown -R $USER:$USER ~/project_workspace
+ls -l ~/project_workspace
+
+# Explanation: chown changes file ownership to current user, -R applies recursively to all files/directories.
+
+# 7. Create files with specific permissions
+umask 027
+touch ~/project_workspace/backups/data.bak
+ls -l ~/project_workspace/backups/data.bak
+
+# Explanation: Set umask to 027 (new files get 640, directories 750) for tighter security.
+
+# 8. Display final permissions
+ls -lR ~/project_workspace

@@ -1,0 +1,62 @@
+# Question 4: File Access and I/O Investigation
+
+# 1. Identify open files
+lsof | head -20
+lsof -u $USER
+
+# Explanation: lsof lists all open files, head -20 shows first 20 entries, -u filters by username.
+
+# 2. List file descriptors for current shell
+ls -l /proc/$$/fd
+# or
+lsof -p $$
+
+# Explanation: Shows file descriptors for current process, including stdin (0), stdout (1), stderr (2).
+
+# 3. Test file descriptors
+ls -l /dev/stdin /dev/stdout /dev/stderr
+
+# Explanation: Shows where standard streams are redirected (typically /dev/pts/* for terminals).
+
+# 4. Output redirection experiment
+echo "Hello, this is standard output" > output.txt
+echo "This is an error message" > error.txt
+ls -l output.txt error.txt
+
+# Explanation: Redirects stdout to output.txt and stderr to error.txt.
+
+# 5. Combine output and error redirection
+ls /tmp /nonexistent 1>combined.txt 2>&1
+cat combined.txt
+
+# Explanation: Redirects both stdout and stderr to same file using 2>&1.
+
+# 6. Test pipe operations
+ls -la | grep "txt" | wc -l
+# or
+ls -la 2>&1 | tee output.log
+
+# Explanation: Demonstrates piping and tee command for I/O handling.
+
+# 7. Check resource limits
+ulimit -a
+ulimit -n
+
+# Explanation: ulimit -a shows all resource limits, -n shows the maximum number of open file descriptors.
+
+# 8. Create a script to test I/O operations
+cat > io_test.sh << 'EOF'
+#!/bin/bash
+echo "Writing to stdout"
+echo "Writing to stderr" >&2
+exec 3>custom_fd.log
+echo "Writing to custom file descriptor" >&3
+EOF
+chmod +x io_test.sh
+./io_test.sh
+cat custom_fd.log
+
+# Explanation: Creates a shell script demonstrating writing to stdout, stderr, and custom file descriptors.
+
+# 9. Show file descriptor table
+ls -l /proc/$$/fd/

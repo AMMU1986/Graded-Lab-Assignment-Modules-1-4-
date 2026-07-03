@@ -1,0 +1,67 @@
+amman@amman:~$ # Question 2: Secure Project Workspace Setup
+amman@amman:~$ 
+amman@amman:~$ # 1. Create directory structure
+amman@amman:~$ mkdir -p ~/project_workspace/{docs,src,backups,temp}
+amman@amman:~$ mkdir ~/project_workspace/docs/archived
+amman@amman:~$ mkdir ~/project_workspace/src/modules
+amman@amman:~$ 
+amman@amman:~$ # Explanation: Creates a nested directory structure using mkdir -p to create parent directories automatically.
+amman@amman:~$ 
+amman@amman:~$ # 2. Display directory structure
+amman@amman:~$ ls -R ~/project_workspace
+/home/amman/project_workspace:
+backups  docs  src  temp
+
+/home/amman/project_workspace/backups:
+
+/home/amman/project_workspace/docs:
+archived
+
+/home/amman/project_workspace/docs/archived:
+
+/home/amman/project_workspace/src:
+modules
+
+/home/amman/project_workspace/src/modules:
+
+/home/amman/project_workspace/temp:
+amman@amman:~$ tree ~/project_workspace
+
+Command 'tree' not found, but can be installed with:
+
+sudo snap install tree  # version 1.8.0+pkg-3fd6, or
+sudo apt  install tree
+
+See 'snap info tree' for additional versions.
+
+amman@amman:~$ 
+amman@amman:~$ # Explanation: ls -R recursively shows all subdirectories, tree provides a visual directory hierarchy.
+amman@amman:~$ 
+amman@amman:~$ # 3. Create a sample file and display initial permissions
+amman@amman:~$ touch ~/project_workspace/docs/project_info.txt
+amman@amman:~$ ls -l ~/project_workspace/docs/project_info.txt
+-rw-rw-r-- 1 amman amman 0 Jul  3 23:35 /home/amman/project_workspace/docs/project_info.txt
+amman@amman:~$ 
+amman@amman:~$ # Explanation: touch creates an empty file, ls -l shows the default file permissions.
+amman@amman:~$ 
+amman@amman:~$ # 4. Check current umask value
+amman@amman:~$ umask
+0002
+amman@amman:~$ 
+amman@amman:~$ # Explanation: umask shows the default permission mask (0022 typically means new files get 644, directories 755 permissions).
+amman@amman:~$ 
+amman@amman:~$ # 5. Modify file permissions
+amman@amman:~$ chmod 644 ~/project_workspace/docs/project_info.txt
+amman@amman:~$ chmod 700 ~/project_workspace/docs
+amman@amman:~$ chmod 750 ~/project_workspace/src
+amman@amman:~$ 
+amman@amman:~$ # Explanation: chmod 644 gives owner read/write, group read-only, others read-only. 700 gives owner full access only.
+amman@amman:~$ 
+amman@amman:~$ # 6. Change ownership (if you have sudo privileges)
+amman@amman:~$ sudo chown -R $USER:$USER ~/project_workspace
+[sudo] password for amman: 
+Sorry, try again.
+[sudo] password for amman: 
+sudo: 1 incorrect password attempt
+amman@amman:~$ ^C
+amman@amman:~$ 
